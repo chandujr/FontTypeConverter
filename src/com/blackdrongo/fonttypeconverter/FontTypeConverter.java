@@ -220,7 +220,9 @@ public class FontTypeConverter implements ActionListener, MouseListener {
             File outputFile = jFileChooser.getSelectedFile();
             String filePath = outputFile.getAbsolutePath();
             if(!filePath.endsWith(".txt")) {
-                filePath = filePath.substring(0, filePath.lastIndexOf('.'));
+                if(filePath.indexOf('.') != -1) {
+                    filePath = filePath.substring(0, filePath.lastIndexOf('.'));
+                }
                 outputFile = new File(filePath + ".txt");
             }
             try {
@@ -292,7 +294,9 @@ public class FontTypeConverter implements ActionListener, MouseListener {
             File outputFile = jFileChooser.getSelectedFile();
             String filePath = outputFile.getAbsolutePath();
             if(!filePath.endsWith(".txt")) {
-                filePath = filePath.substring(0, filePath.lastIndexOf('.'));
+                if(filePath.indexOf('.') != -1) {
+                    filePath = filePath.substring(0, filePath.lastIndexOf('.'));
+                }
                 outputFile = new File(filePath + ".txt");
             }
             try {
