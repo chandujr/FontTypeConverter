@@ -33,7 +33,7 @@ class CharacterReplacer {
                 "ൺ", "ൻ", "ർ", "ൽ", "ൾ",
                 "ാ", "ി", "ീ", "ു", "ൂ", "ൃ", "ൗ", "ം", "ഃ",
                 "്",
-                "–", "‘", "’", "  "
+                "–", "‘", "’", "  ", "∙"
         };
         String[] outputTextArray = new String[]{
                 "A", "B", "C", "Cu", "D", "Du", "E", "F", "G", "ssF", "H", "Hm", "Hu",
@@ -41,7 +41,7 @@ class CharacterReplacer {
                 "¬", "³", "À", "Â", "Ä",
                 "m", "n", "o", "p", "q", "r", "u", "w", "x",
                 "v",
-                "þ", "\"", "'", " "
+                "þ", "\"", "'", " ", "þ"
         };
 
         for (int i = 0; i < inputTextArray.length || i < outputTextArray.length; i++) {
@@ -317,7 +317,10 @@ class CharacterReplacer {
             while (true) {
                 int index = inputText.indexOf(precedingLetterInputChars[i]);
                 if (index == -1) break;
-                boolean isYaRaVaChar = String.valueOf(inputText.charAt(index - 1)).equals(yaChar) || String.valueOf(inputText.charAt(index - 2)).equals(raChar) || String.valueOf(inputText.charAt(index - 1)).equals(vaChar);
+                boolean isYaRaVaChar = false;
+                if(index != 1) {
+                    isYaRaVaChar = String.valueOf(inputText.charAt(index - 1)).equals(yaChar) || String.valueOf(inputText.charAt(index - 2)).equals(raChar) || String.valueOf(inputText.charAt(index - 1)).equals(vaChar);
+                }
                 inputText = inputText.substring(0, index) + String.format("%s%c", precedingLetterOutputChars[i], inputText.charAt(index - 1)) + inputText.substring(index + 1);
                 inputText = inputText.substring(0, index - 1) + inputText.substring(index);
                 if(isYaRaVaChar) {
@@ -339,7 +342,10 @@ class CharacterReplacer {
             while (true) {
                 int index = inputText.indexOf(midLetterInputChars[i]);
                 if (index == -1) break;
-                boolean isYaRaVaChar = String.valueOf(inputText.charAt(index - 1)).equals(yaChar) || String.valueOf(inputText.charAt(index - 1)).equals(raChar) || String.valueOf(inputText.charAt(index - 1)).equals(vaChar);
+                boolean isYaRaVaChar = false;
+                if(index != 1) {
+                    isYaRaVaChar = String.valueOf(inputText.charAt(index - 1)).equals(yaChar) || String.valueOf(inputText.charAt(index - 1)).equals(raChar) || String.valueOf(inputText.charAt(index - 1)).equals(vaChar);
+                }
                 inputText = inputText.substring(0, index) + String.format("%s%c%s", midLetterOutputChars[i].substring(0, 1), inputText.charAt(index - 1), midLetterOutputChars[i].substring(1)) + inputText.substring(index + 1);
                 inputText = inputText.substring(0, index - 1) + inputText.substring(index);
                 if(isYaRaVaChar) {
