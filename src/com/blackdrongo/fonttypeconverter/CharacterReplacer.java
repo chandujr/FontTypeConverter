@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 
 /**
  * created by WeirdElfB0y of BlackDrongo on 22-Aug-2016.
- * last updated on 22-Jan-2017
+ * last updated on 03-Feb-2017
  */
 class CharacterReplacer {
 
@@ -33,7 +33,7 @@ class CharacterReplacer {
                 "ൺ", "ൻ", "ർ", "ൽ", "ൾ",
                 "ാ", "ി", "ീ", "ു", "ൂ", "ൃ", "ൗ", "ം", "ഃ",
                 "്",
-                "–", "‘", "’"
+                "–", "‘", "’", "  "
         };
         String[] outputTextArray = new String[]{
                 "A", "B", "C", "Cu", "D", "Du", "E", "F", "G", "ssF", "H", "Hm", "Hu",
@@ -41,7 +41,7 @@ class CharacterReplacer {
                 "¬", "³", "À", "Â", "Ä",
                 "m", "n", "o", "p", "q", "r", "u", "w", "x",
                 "v",
-                "þ", "\"", "'"
+                "þ", "\"", "'", " "
         };
 
         for (int i = 0; i < inputTextArray.length || i < outputTextArray.length; i++) {
@@ -78,10 +78,11 @@ class CharacterReplacer {
         LinkedHashMap<String, String> daDoubles = new LinkedHashMap<>();
         daDoubles.put("U", "Í");
         LinkedHashMap<String, String> nnaDoubles = new LinkedHashMap<>();
-        nnaDoubles.put("S","­");
+        // nnaDoubles.put("S","­");
         nnaDoubles.put("U","Þ");
         nnaDoubles.put("W","®");
         nnaDoubles.put("a","×");
+        nnaDoubles.put("S","ï");
         LinkedHashMap<String, String> thaDoubles = new LinkedHashMap<>();
         thaDoubles.put("X","¯");
         thaDoubles.put("Y","°");
@@ -316,8 +317,19 @@ class CharacterReplacer {
             while (true) {
                 int index = inputText.indexOf(precedingLetterInputChars[i]);
                 if (index == -1) break;
+                boolean isYaRaVaChar = String.valueOf(inputText.charAt(index - 1)).equals(yaChar) || String.valueOf(inputText.charAt(index - 2)).equals(raChar) || String.valueOf(inputText.charAt(index - 1)).equals(vaChar);
                 inputText = inputText.substring(0, index) + String.format("%s%c", precedingLetterOutputChars[i], inputText.charAt(index - 1)) + inputText.substring(index + 1);
                 inputText = inputText.substring(0, index - 1) + inputText.substring(index);
+                if(isYaRaVaChar) {
+                    int newIndex = index - 1;
+                    if(i < 2) {
+                        inputText = inputText.substring(0, newIndex - 1) + String.format("%c", inputText.charAt(newIndex)) + String.format("%c", inputText.charAt(newIndex - 1)) +
+                                inputText.substring(newIndex + 1);
+                    } else {
+                        inputText = inputText.substring(0, newIndex - 1) + String.format("%c", inputText.charAt(newIndex)) + String.format("%c", inputText.charAt(newIndex + 1)) +
+                                String.format("%c", inputText.charAt(newIndex - 1)) + inputText.substring(newIndex + 2);
+                    }
+                }
             }
         }
 
@@ -327,8 +339,13 @@ class CharacterReplacer {
             while (true) {
                 int index = inputText.indexOf(midLetterInputChars[i]);
                 if (index == -1) break;
+                boolean isYaRaVaChar = String.valueOf(inputText.charAt(index - 1)).equals(yaChar) || String.valueOf(inputText.charAt(index - 1)).equals(raChar) || String.valueOf(inputText.charAt(index - 1)).equals(vaChar);
                 inputText = inputText.substring(0, index) + String.format("%s%c%s", midLetterOutputChars[i].substring(0, 1), inputText.charAt(index - 1), midLetterOutputChars[i].substring(1)) + inputText.substring(index + 1);
                 inputText = inputText.substring(0, index - 1) + inputText.substring(index);
+                if(isYaRaVaChar) {
+                    int newIndex = index - 1;
+                    inputText = inputText.substring(0, newIndex - 1) + String.format("%c", inputText.charAt(newIndex)) + String.format("%c", inputText.charAt(newIndex - 1)) + inputText.substring(newIndex + 1);
+                }
             }
         }
 
